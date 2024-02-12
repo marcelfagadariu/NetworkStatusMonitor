@@ -14,12 +14,9 @@ public class NetworkStatusMonitor: NetworkMonitoring {
     @Published public var isConnected: Bool = false
 
     public init() {
-        networkMonitor.pathUpdateHandler = { path in
-            self.isConnected = path.status == .satisfied
-            Task {
-                await MainActor.run {
-                    self.objectWillChange.send()
-                }
+        networkMonitor.pathUpdateHandler = { [weak self] path in
+            DispatchQueue.main.async {
+                self?.isConnected = path.status == .satisfied
             }
         }
         networkMonitor.start(queue: workerQueue)
