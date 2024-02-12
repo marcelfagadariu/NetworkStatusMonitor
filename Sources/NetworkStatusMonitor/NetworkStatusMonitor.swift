@@ -11,7 +11,7 @@ import Foundation
 public class NetworkStatusMonitor: NetworkMonitoring {
     private let networkMonitor = NWPathMonitor()
     private let workerQueue = DispatchQueue(label: "NetworkMonitorQueue")
-    @Published private(set) var isConnected: Bool = false
+    @Published public var isConnected: Bool = false
 
     public init() {
         networkMonitor.pathUpdateHandler = { path in
